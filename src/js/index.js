@@ -5,19 +5,13 @@ import SlimSelect from 'slim-select';
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
 const catInfo = document.querySelector('.cat-info');
+const error = document.querySelector('.error');
 
 // Приховати select.breed-select та div.cat-info, показати p.loader
 breedSelect.style.display = 'none';
 catInfo.style.display = 'none';
 loader.style.display = 'block';
-
-// Ініціалізувати SlimSelect на елементі .breed-select
-const select = new SlimSelect({
-  select: breedSelect,
-  settings: {
-    placeholderText: 'Choose a breed',
-  },
-});
+error.style.display = 'none';
 
 // Код, що виконується при завантаженні сторінки
 fetchBreeds().then(breeds => {
@@ -32,77 +26,87 @@ fetchBreeds().then(breeds => {
   breedSelect.style.display = 'block';
   loader.style.display = 'none';
 
-  breedSelect.addEventListener('change', () => {
-    const selectedBreedId = breedSelect.value;
+  breedSelect
+    .addEventListener('change', () => {
+      const selectedBreedId = breedSelect.value;
 
-    // Приховати div.cat-info, показати p.loader
-    catInfo.style.display = 'none';
-    loader.style.display = 'block';
+      // Приховати div.cat-info, показати p.loader
+      catInfo.style.display = 'none';
+      loader.style.display = 'block';
 
-    fetchCatByBreed(selectedBreedId).then(cat => {
-      catInfo.innerHTML = ''; // Очистити вміст блоку перед додаванням нової інформації
+      fetchCatByBreed(selectedBreedId)
+        .then(cat => {
+          catInfo.innerHTML = ''; // Очистити вміст блоку перед додаванням нової інформації
 
-      const image = document.createElement('img');
-      image.src = cat.url;
-      image.classList.add('cat_img');
-      image.setAttribute('loading', 'lazy');
-      catInfo.appendChild(image);
+          const image = document.createElement('img');
+          image.src = cat.url;
+          image.classList.add('cat_img');
+          image.setAttribute('loading', 'lazy');
+          catInfo.appendChild(image);
 
-      const breedInfo = document.createElement('div');
-      breedInfo.classList.add('breed-info');
+          const breedInfo = document.createElement('div');
+          breedInfo.classList.add('breed-info');
 
-      const breedName = document.createElement('p');
-      breedName.classList.add('title');
+          const breedName = document.createElement('p');
+          breedName.classList.add('title');
 
-      const breedText = document.createTextNode(`Breed: `);
-      breedName.appendChild(breedText);
+          const breedText = document.createTextNode(`Breed: `);
+          breedName.appendChild(breedText);
 
-      const breedSpan = document.createElement('span');
-      breedSpan.textContent = cat.breeds[0].name;
-      breedSpan.classList.add('text');
-      breedName.appendChild(breedSpan);
+          const breedSpan = document.createElement('span');
+          breedSpan.textContent = cat.breeds[0].name;
+          breedSpan.classList.add('text');
+          breedName.appendChild(breedSpan);
 
-      breedInfo.appendChild(breedName);
+          breedInfo.appendChild(breedName);
 
-      const description = document.createElement('p');
-      description.classList.add('title');
+          const description = document.createElement('p');
+          description.classList.add('title');
 
-      const descriptionText = document.createTextNode(`Description: `);
-      description.appendChild(descriptionText);
+          const descriptionText = document.createTextNode(`Description: `);
+          description.appendChild(descriptionText);
 
-      const descriptionSpan = document.createElement('span');
-      descriptionSpan.textContent = cat.breeds[0].description;
-      descriptionSpan.classList.add('text');
-      description.appendChild(descriptionSpan);
+          const descriptionSpan = document.createElement('span');
+          descriptionSpan.textContent = cat.breeds[0].description;
+          descriptionSpan.classList.add('text');
+          description.appendChild(descriptionSpan);
 
-      breedInfo.appendChild(description);
+          breedInfo.appendChild(description);
 
-      const temperament = document.createElement('p');
-      temperament.classList.add('title');
+          const temperament = document.createElement('p');
+          temperament.classList.add('title');
 
-      const temperamentText = document.createTextNode(`Temperament: `);
-      temperament.appendChild(temperamentText);
+          const temperamentText = document.createTextNode(`Temperament: `);
+          temperament.appendChild(temperamentText);
 
-      const temperamentSpan = document.createElement('span');
-      temperamentSpan.textContent = cat.breeds[0].temperament;
-      temperamentSpan.classList.add('text');
-      temperament.appendChild(temperamentSpan);
+          const temperamentSpan = document.createElement('span');
+          temperamentSpan.textContent = cat.breeds[0].temperament;
+          temperamentSpan.classList.add('text');
+          temperament.appendChild(temperamentSpan);
 
-      breedInfo.appendChild(temperament);
+          breedInfo.appendChild(temperament);
 
-      catInfo.appendChild(breedInfo);
+          catInfo.appendChild(breedInfo);
 
-      // Приховати p.loader, показати div.cat-info
-      catInfo.style.display = 'block';
-      loader.style.display = 'none';
+          // Приховати p.loader, показати div.cat-info
+          catInfo.style.display = 'block';
+          loader.style.display = 'none';
+        })
+        .catch(error => {
+          error.style.display = 'block';
+          console.error(error);
+        });
+
+      // Ініціалізувати SlimSelect на елементі .breed-select
+      const select = new SlimSelect({
+        select: breedSelect,
+        settings: {
+          placeholderText: 'Choose a breed',
+        },
+      });
+    })
+    .catch(error => {
+      error.style.display = 'block';
+      console.error(error);
     });
-    // .catch(error => {
-    //   error.style.display = 'block';
-    //   console.error(error);
-    // });
-  });
 });
-// .catch(error => {
-//   error.style.display = 'block';
-//   console.error();
-// });
