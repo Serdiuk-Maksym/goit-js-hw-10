@@ -5,13 +5,19 @@ import SlimSelect from 'slim-select';
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
 const catInfo = document.querySelector('.cat-info');
-const error = document.querySelector('.error');
 
 // Приховати select.breed-select та div.cat-info, показати p.loader
 breedSelect.style.display = 'none';
 catInfo.style.display = 'none';
 loader.style.display = 'block';
-error.style.display = 'none';
+
+// Ініціалізувати SlimSelect на елементі .breed-select
+const select = new SlimSelect({
+  select: breedSelect,
+  settings: {
+    placeholderText: 'Choose a breed',
+  },
+});
 
 // Код, що виконується при завантаженні сторінки
 fetchBreeds().then(breeds => {
@@ -94,11 +100,6 @@ fetchBreeds().then(breeds => {
     //   error.style.display = 'block';
     //   console.error(error);
     // });
-
-    // Ініціалізувати SlimSelect на елементі .breed-select
-    const select = new SlimSelect({
-      select: breedSelect,
-    });
   });
 });
 // .catch(error => {
