@@ -1,6 +1,7 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 import 'slim-select/dist/slimselect.css';
 import SlimSelect from 'slim-select';
+import Notiflix from 'notiflix';
 
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
@@ -93,8 +94,8 @@ fetchBreeds().then(breeds => {
           loader.style.display = 'none';
         })
         .catch(error => {
-          error.style.display = 'block';
-          console.error(error);
+          Notiflix.Report.Failure('Error', error.message, 'OK');
+          console.error(error.message);
         });
 
       // Ініціалізувати SlimSelect на елементі .breed-select
@@ -106,7 +107,7 @@ fetchBreeds().then(breeds => {
       });
     })
     .catch(error => {
-      error.style.display = 'block';
-      console.error(error);
+      Notiflix.Report.Failure('Error', error.message, 'OK');
+      console.error(error.message);
     });
 });
