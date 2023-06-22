@@ -17,6 +17,7 @@ const slimSelect = new SlimSelect({
 });
 
 // Приховати select.breed-select та div.cat-info, показати p.loader
+breedSelect.style.display = 'none';
 catInfo.style.display = 'none';
 loader.style.display = 'block';
 error.style.display = 'none';
