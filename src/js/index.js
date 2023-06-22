@@ -9,15 +9,8 @@ const catInfo = document.querySelector('.cat-info');
 const error = document.querySelector('.error');
 
 // Ініціалізувати SlimSelect на елементі .breed-select
-const slimSelect = new SlimSelect({
-  select: '#breedSelect',
-  settings: {
-    placeholderText: 'Choose a breed',
-  },
-});
 
 // Приховати select.breed-select та div.cat-info, показати p.loader
-breedSelect.style.display = 'none';
 catInfo.style.display = 'none';
 loader.style.display = 'block';
 error.style.display = 'none';
