@@ -3,13 +3,19 @@ import 'slim-select/dist/slimselect.css';
 import SlimSelect from 'slim-select';
 import Notiflix from 'notiflix';
 
-const breedSelect = document.querySelector('.breed-select');
+// Ініціалізувати SlimSelect на елементі .breed-select
+const select = new SlimSelect({
+  select: '#breedSelect',
+  settings: {
+    placeholderText: 'Choose a breed',
+  },
+});
+
 const loader = document.querySelector('.loader');
 const catInfo = document.querySelector('.cat-info');
 const error = document.querySelector('.error');
 
 // Приховати select.breed-select та div.cat-info, показати p.loader
-breedSelect.style.display = 'none';
 catInfo.style.display = 'none';
 loader.style.display = 'block';
 error.style.display = 'none';
@@ -20,94 +26,86 @@ fetchBreeds().then(breeds => {
     const option = document.createElement('option');
     option.value = breed.id;
     option.textContent = breed.name;
-    breedSelect.appendChild(option);
+    select.appendChild(option);
   });
 
   // Приховати p.loader, показати select.breed-select
-  breedSelect.style.display = 'block';
+  select.style.display = 'block';
   loader.style.display = 'none';
 
-  breedSelect
-    .addEventListener('change', () => {
-      const selectedBreedId = breedSelect.value;
+  select.addEventListener('change', () => {
+    const selectedBreedId = select.value;
 
-      // Приховати div.cat-info, показати p.loader
-      catInfo.style.display = 'none';
-      loader.style.display = 'block';
+    // Приховати div.cat-info, показати p.loader
+    catInfo.style.display = 'none';
+    loader.style.display = 'block';
 
-      fetchCatByBreed(selectedBreedId)
-        .then(cat => {
-          catInfo.innerHTML = ''; // Очистити вміст блоку перед додаванням нової інформації
+    fetchCatByBreed(selectedBreedId)
+      .then(cat => {
+        catInfo.innerHTML = ''; // Очистити вміст блоку перед додаванням нової інформації
 
-          const image = document.createElement('img');
-          image.src = cat.url;
-          image.classList.add('cat_img');
-          image.setAttribute('loading', 'lazy');
-          catInfo.appendChild(image);
+        const image = document.createElement('img');
+        image.src = cat.url;
+        image.classList.add('cat_img');
+        image.setAttribute('loading', 'lazy');
+        catInfo.appendChild(image);
 
-          const breedInfo = document.createElement('div');
-          breedInfo.classList.add('breed-info');
+        const breedInfo = document.createElement('div');
+        breedInfo.classList.add('breed-info');
 
-          const breedName = document.createElement('p');
-          breedName.classList.add('title');
+        const breedName = document.createElement('p');
+        breedName.classList.add('title');
 
-          const breedText = document.createTextNode(`Breed: `);
-          breedName.appendChild(breedText);
+        const breedText = document.createTextNode(`Breed: `);
+        breedName.appendChild(breedText);
 
-          const breedSpan = document.createElement('span');
-          breedSpan.textContent = cat.breeds[0].name;
-          breedSpan.classList.add('text');
-          breedName.appendChild(breedSpan);
+        const breedSpan = document.createElement('span');
+        breedSpan.textContent = cat.breeds[0].name;
+        breedSpan.classList.add('text');
+        breedName.appendChild(breedSpan);
 
-          breedInfo.appendChild(breedName);
+        breedInfo.appendChild(breedName);
 
-          const description = document.createElement('p');
-          description.classList.add('title');
+        const description = document.createElement('p');
+        description.classList.add('title');
 
-          const descriptionText = document.createTextNode(`Description: `);
-          description.appendChild(descriptionText);
+        const descriptionText = document.createTextNode(`Description: `);
+        description.appendChild(descriptionText);
 
-          const descriptionSpan = document.createElement('span');
-          descriptionSpan.textContent = cat.breeds[0].description;
-          descriptionSpan.classList.add('text');
-          description.appendChild(descriptionSpan);
+        const descriptionSpan = document.createElement('span');
+        descriptionSpan.textContent = cat.breeds[0].description;
+        descriptionSpan.classList.add('text');
+        description.appendChild(descriptionSpan);
 
-          breedInfo.appendChild(description);
+        breedInfo.appendChild(description);
 
-          const temperament = document.createElement('p');
-          temperament.classList.add('title');
+        const temperament = document.createElement('p');
+        temperament.classList.add('title');
 
-          const temperamentText = document.createTextNode(`Temperament: `);
-          temperament.appendChild(temperamentText);
+        const temperamentText = document.createTextNode(`Temperament: `);
+        temperament.appendChild(temperamentText);
 
-          const temperamentSpan = document.createElement('span');
-          temperamentSpan.textContent = cat.breeds[0].temperament;
-          temperamentSpan.classList.add('text');
-          temperament.appendChild(temperamentSpan);
+        const temperamentSpan = document.createElement('span');
+        temperamentSpan.textContent = cat.breeds[0].temperament;
+        temperamentSpan.classList.add('text');
+        temperament.appendChild(temperamentSpan);
 
-          breedInfo.appendChild(temperament);
+        breedInfo.appendChild(temperament);
 
-          catInfo.appendChild(breedInfo);
+        catInfo.appendChild(breedInfo);
 
-          // Приховати p.loader, показати div.cat-info
-          catInfo.style.display = 'block';
-          loader.style.display = 'none';
-        })
-        .catch(error => {
-          Notiflix.Report.Failure('Error', error.message, 'OK');
-          console.error(error.message);
-        });
-
-      // Ініціалізувати SlimSelect на елементі .breed-select
-      const select = new SlimSelect({
-        select: breedSelect,
-        settings: {
-          placeholderText: 'Choose a breed',
-        },
+        // Приховати p.loader, показати div.cat-info
+        catInfo.style.display = 'block';
+        loader.style.display = 'none';
+      })
+      .catch(error => {
+        Notiflix.Report.failure(
+          'Error',
+          'Oops! Something went wrong! Try reloading the page!',
+          'OK'
+        );
+        console.error('Oops! Something went wrong! Try reloading the page!');
+        loader.style.display = 'none';
       });
-    })
-    .catch(error => {
-      Notiflix.Report.Failure('Error', error.message, 'OK');
-      console.error(error.message);
-    });
+  });
 });
