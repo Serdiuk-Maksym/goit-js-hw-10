@@ -8,9 +8,7 @@ const loader = document.querySelector('.loader');
 const catInfo = document.querySelector('.cat-info');
 const error = document.querySelector('.error');
 
-// Ініціалізувати SlimSelect на елементі .breed-select
-
-// Приховати select.breed-select та div.cat-info, показати p.loader
+// Приховати div.cat-info, показати p.loader
 catInfo.style.display = 'none';
 loader.style.display = 'block';
 error.style.display = 'none';
@@ -25,8 +23,7 @@ fetchBreeds().then(breeds => {
   });
 });
 
-// Приховати p.loader, показати select.breed-select
-breedSelect.style.display = 'block';
+// Приховати p.loader
 loader.style.display = 'none';
 
 breedSelect.addEventListener('change', () => {
