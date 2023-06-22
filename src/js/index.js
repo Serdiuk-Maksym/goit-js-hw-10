@@ -15,16 +15,24 @@ error.style.display = 'none';
 
 // Код, що виконується при завантаженні сторінки
 fetchBreeds().then(breeds => {
-  breeds.forEach(breed => {
-    const option = document.createElement('option');
-    option.value = breed.id;
-    option.textContent = breed.name;
+  const options = breeds.map(breed => {
+    const optionElement = document.createElement('option');
+    optionElement.value = breed.id;
+    optionElement.textContent = breed.name;
+    return optionElement;
+  });
+
+  options.forEach(option => {
     breedSelect.appendChild(option);
   });
-});
 
-// Приховати p.loader
-loader.style.display = 'none';
+  loader.style.display = 'none';
+  breedSelect.style.display = 'block';
+
+  new SlimSelect({
+    select: '.breed-select',
+  });
+});
 
 breedSelect.addEventListener('change', () => {
   const selectedBreedId = breedSelect.value;
