@@ -108,7 +108,6 @@ breedSelect.addEventListener('change', () => {
         'Oops! Something went wrong! Try reloading the page!',
         'OK'
       );
-      console.error('Oops! Something went wrong! Try reloading the page!');
       loader.style.display = 'none';
     });
 });
