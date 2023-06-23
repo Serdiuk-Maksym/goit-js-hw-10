@@ -3,7 +3,7 @@ import 'slim-select/dist/slimselect.css';
 import SlimSelect from 'slim-select';
 import Notiflix from 'notiflix';
 
-const breedSelect = document.querySelector('breed-select');
+const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
 const catInfo = document.querySelector('.cat-info');
 const error = document.querySelector('.error');
@@ -42,6 +42,9 @@ breedSelect.addEventListener('change', () => {
   loader.style.display = 'block';
 
   fetchCatByBreed(selectedBreedId)
+    .then(data => {
+      return data[0]; // Оскільки ми отримуємо масив з одним котом, повертаємо перший елемент
+    })
     .then(cat => {
       catInfo.innerHTML = ''; // Очистити вміст блоку перед додаванням нової інформації
 

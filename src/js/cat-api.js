@@ -6,19 +6,12 @@ export function fetchBreeds() {
     headers: {
       'x-api-key': apiKey,
     },
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Oops! Something went wrong!');
-      }
-      return response.json();
-    })
-    .then(data => {
-      return data.map(breed => ({
-        id: breed.id,
-        name: breed.name,
-      }));
-    });
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error('Oops! Something went wrong!');
+    }
+    return response.json();
+  });
 }
 
 export function fetchCatByBreed(breedId) {
@@ -28,14 +21,10 @@ export function fetchCatByBreed(breedId) {
     headers: {
       'x-api-key': apiKey,
     },
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Oops! Something went wrong!');
-      }
-      return response.json();
-    })
-    .then(data => {
-      return data[0]; // Оскільки ми отримуємо масив з одним котом, повертаємо перший елемент
-    });
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error('Oops! Something went wrong!');
+    }
+    return response.json();
+  });
 }

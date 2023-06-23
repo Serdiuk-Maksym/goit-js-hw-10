@@ -14,6 +14,7 @@ body {
 }
 
 .breed-select {
+  display: none;
   width: 250px;
   padding: 5px;
 
@@ -117,4 +118,8 @@ h3 {
   font-weight: 400;
   text-transform: none;
   color: #fd9222;
+}
+
+.ss-content {
+  overflow: scroll !important;
 }
