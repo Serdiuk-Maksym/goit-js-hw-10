@@ -76,6 +76,8 @@ body {
 
 .cat-info {
   display: none;
+  margin-top: 30px;
+  width: 100%;
 }
 
 .cat-info.active {
@@ -83,8 +85,7 @@ body {
 }
 
 .cat-info img {
-  margin: 30px;
-  width: 800px;
+  width: 100%;
 
   border-radius: 5px;
 }
